@@ -2,26 +2,47 @@
 {
     internal class Program
     {
-        /*Versão 1 - Estrutura básica e simulação de dados 
+        /*Versão 2 - Controle da posição do jogador 
         Requisitos:
 
-        Exibir um banner para o jogo de dados
-        Implementar a geração de números aleatórios para simular um dado (1-6)
-        Exibir o resultado do lançamento do dado
-        Permitir que o usuário pressione Enter para lançar o dado*/
+        Armazenar a posição do jogador na pista e atualizar o valor após o lançamento do dado
+        Exibir a posição atual do jogador na pista
+        Defina a linha de chegada em 30 verifique se o jogador alcançou ou ultrapassou a linha de chegada
+        Permitir que o jogador realize várias jogadas*/
+
         static void Main(string[] args)
         {
+            const int limiteLinhaDeChegada = 30;
 
             while (true)
             {
-                //Exibição do Cabeçalho
-                ExibirCabecalho();
+                int posicaoUsuario = 0;
+                bool JogoEstaEmAndamento = true;
 
-                //Lançamento do dado
-                int resultado = LancarDado();
+                while (JogoEstaEmAndamento)
+                {
+                    //Exibição do Cabeçalho
+                    ExibirCabecalho();
 
-                //Exibição do resultado
-                ExibirResultado(resultado);
+                    //Lançamento do dado
+                    int resultado = LancarDado();
+
+                    //Incrementar posição
+                    posicaoUsuario += resultado;
+
+                    //Exibição do resultado
+                    ExibirResultado(resultado);
+
+                    //Exibir a posição atual
+                    ExibirPosicaoAtual(posicaoUsuario);
+
+                    //Verificação se o usuário crusou a linha de chegada
+                    if (posicaoUsuario >= limiteLinhaDeChegada)
+                    {
+                        ExibirVitoria();
+                        JogoEstaEmAndamento = false;
+                    }
+                }
 
                 //Opção continuar
                 string continuar = OpcaoContinuar();
@@ -58,6 +79,21 @@
             Console.WriteLine("------------------------------");
             Console.WriteLine($"O valor sorteado foi: {resultado}");
             Console.WriteLine("------------------------------");
+        }
+
+        private static void ExibirPosicaoAtual(int posicaoUsuario)
+        {
+            Console.WriteLine("------------------------------");
+            Console.WriteLine($"A sua posição atual é: {posicaoUsuario}");
+            Console.WriteLine("------------------------------");
+
+            Console.ReadLine();
+        }
+
+        private static void ExibirVitoria()
+        {
+            Console.WriteLine("Parabéns você chegou na linha de chegada!");
+            Console.ReadLine();
         }
 
         static string OpcaoContinuar()
